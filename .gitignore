@@ -1,5 +1,6 @@
 *.gem
 *.rbc
+lib/ruby_cube/ruby_cube.bundle
 /.config
 /coverage/
 /InstalledFiles
