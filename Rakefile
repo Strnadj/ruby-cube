@@ -4,7 +4,6 @@ require "hoe"
 
 Hoe.plugin :compiler
 Hoe.plugin :minitest
-Hoe.plugin :travis
 Hoe.plugin :gemspec
 Hoe.plugin :bundler
 

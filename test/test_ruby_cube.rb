@@ -25,10 +25,6 @@ class TestRubyCube < Minitest::Test
         a: %i(a b),
         b: %i(b c)
       })
-
-      puts a.instance_variable_get(:@sizes).inspect
-      puts a.instance_variable_get(:@keys).inspect
-      puts a.instance_variable_get(:@test).inspect
     end
   end
 
@@ -36,5 +32,7 @@ class TestRubyCube < Minitest::Test
     assert_equal test_cube.instance_variable_get(:@axes), test_axes
     assert_equal test_cube.dimension, 2
     assert_equal test_cube.sizes, test_axes.values
+    assert_equal test_cube.instance_variable_get(:@max_size), 9
+    assert_equal test_cube.instance_variable_get(:@data).size, 9
   end
 end
