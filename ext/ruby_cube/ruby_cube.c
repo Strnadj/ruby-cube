@@ -52,14 +52,57 @@ static VALUE t_init(VALUE self, VALUE hash) {
   return self;
 }
 
+// Return axe values by key.
+static VALUE t_axe_values(VALUE self, VALUE key) {
+  return rb_hash_aref(rb_iv_get(self, "@axes"), key);
+}
+
+// Fill cube with provided VALUE
+static VALUE t_fill(VALUE self, VALUE key) {
+  VALUE array;
+  long size, i;
+
+  size = FIX2INT(rb_iv_get(self, "@max_size"));
+  array = rb_iv_get(self, "@data");
+
+  for (i = 0; i < size; i++) {
+    rb_ary_store(array, i, key);
+  }
+
+  return array;
+}
+
+// Proxy methods
+static VALUE t_proxy_get(VALUE self, VALUE key) {
+  return self;
+}
+
+static VALUE t_proxy_set(VALUE self, VALUE key, VALUE value) {
+  return self;
+}
 
 void Init_ruby_cube()
 {
-  VALUE mRubyCube = rb_define_class("RubyCube", rb_cObject);
+  VALUE mRubyCube, mRubyProxyCube;
+
+  // RubyCube
+  mRubyCube = rb_define_class("RubyCube", rb_cObject);
   rb_define_method(mRubyCube, "initialize", (VALUE(*)(ANYARGS))t_init, 1);
 
   // Define attr acessors
   rb_define_attr(mRubyCube, "data", 1, 1);
   rb_define_attr(mRubyCube, "sizes", 1, 0);
   rb_define_attr(mRubyCube, "dimension", 1, 0);
+
+  // Define help methods
+  rb_define_method(mRubyCube, "axe_values", (VALUE(*)(ANYARGS))t_axe_values, 1);
+  rb_define_method(mRubyCube, "fill", (VALUE(*)(ANYARGS))t_fill, 1);
+
+  // Define proxy methods
+  rb_define_method(mRubyCube, "[]", (VALUE(*)(ANYARGS))t_proxy_get, 1);
+  rb_define_method(mRubyCube, "[]=", (VALUE(*)(ANYARGS))t_proxy_set, 2);
+
+
+  // ProxyRubyCube class
+  mRubyProxyCube = rb_define_class("RubyProxyCube", rb_cObject);
 }
